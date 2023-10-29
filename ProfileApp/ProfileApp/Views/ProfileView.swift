@@ -156,12 +156,36 @@ class ProfileView: UIView {
 
     @objc
     private func save() {
-        completeTitle.text = "Данные сохранены."
-        saveAction?()
+        if (validate()) {
+            completeTitle.text = "Данные сохранены."
+            saveAction?()
+        } else {
+            completeTitle.text = "Заполните обязательные поля."
+            firstNameField.placeholder = "Обязательное поле"
+            
+            secondNameField.placeholder = "Обязательное поле"
+            
+            nicknameField.placeholder = "Обязательное поле"
+        
+            emailField.placeholder = "Обязательное поле"
+        }
     }
 
     @objc
     private func cancel() {
         cancelAction?()
+    }
+    
+    private func validate() -> Bool {
+        if let text = firstNameField.text, !text.isEmpty {
+            if let text = secondNameField.text, !text.isEmpty {
+                if let text = emailField.text, !text.isEmpty {
+                    if let text = nicknameField.text, !text.isEmpty {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }
